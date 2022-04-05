@@ -14,7 +14,7 @@ public record FindingIntervals(List<CutBorder> cutBorders) {
         return bordersToIntervals(borders);
     }
 
-    public void sortValues(int leftIndex, int rightIndex) {
+    private void sortValues(int leftIndex, int rightIndex) {
         int pivot = cutBorders.get((leftIndex + rightIndex) / 2).value();
         int leftMarker = leftIndex;
         int rightMarker = rightIndex;
@@ -49,7 +49,7 @@ public record FindingIntervals(List<CutBorder> cutBorders) {
         }
     }
 
-    public boolean checkNeedSwap(List<CutBorder> cutBorders, int left, int right) {
+    private boolean checkNeedSwap(List<CutBorder> cutBorders, int left, int right) {
         if (cutBorders.get(left).value() == cutBorders.get(right).value()) {
             return !cutBorders.get(left).isBeginning();
         }
@@ -57,7 +57,7 @@ public record FindingIntervals(List<CutBorder> cutBorders) {
         return true;
     }
 
-    public List<CutBorder> findIntervals(int quantityCovered) {
+    private List<CutBorder> findIntervals(int quantityCovered) {
         List<CutBorder> intervals = new ArrayList<>();
 
         int newQuantityCovered = 0;
