@@ -20,7 +20,7 @@ public class FindingIntervalsTest {
     }
 
     @Parameterized.Parameters
-    public static Iterable<Object[]> cases() throws FileNotFoundException {
+    public static List<Object[]> cases() throws FileNotFoundException {
         return Arrays.asList(new Object[][]{
                 {Utils.readCutBorders(new File("src/test/resources/inputWithFiveIntervals.txt")), "[(74; 87)]"},
                 {Utils.readCutBorders(new File("src/test/resources/inputWithOneInterval.txt")), "[(22; 44)]"},
