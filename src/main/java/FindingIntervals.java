@@ -1,7 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public record FindingIntervals(List<CutBorder> cutBorders) {
+public class FindingIntervals {
+    private final List<CutBorder> cutBorders;
+
+    public FindingIntervals(List<CutBorder> cutBorders) {
+        this.cutBorders = cutBorders;
+    }
 
     public List<Interval> findMoreCoveredIntervals() {
         if (cutBorders == null) {
@@ -14,40 +19,40 @@ public record FindingIntervals(List<CutBorder> cutBorders) {
         return bordersToIntervals(borders);
     }
 
-    private void sortValues(int leftIndex, int rightIndex) {
-        int pivot = cutBorders.get((leftIndex + rightIndex) / 2).value();
-        int leftMarker = leftIndex;
-        int rightMarker = rightIndex;
+     private void sortValues(int leftIndex, int rightIndex) {
+         int pivot = cutBorders.get((leftIndex + rightIndex) / 2).value();
+         int leftMarker = leftIndex;
+         int rightMarker = rightIndex;
 
-        while (leftMarker <= rightMarker) {
-            while (cutBorders.get(leftMarker).value() < pivot) {
-                leftMarker++;
-            }
-            while (cutBorders.get(rightMarker).value() > pivot) {
-                rightMarker--;
-            }
+         while (leftMarker <= rightMarker) {
+             while (cutBorders.get(leftMarker).value() < pivot) {
+                 leftMarker++;
+             }
+             while (cutBorders.get(rightMarker).value() > pivot) {
+                 rightMarker--;
+             }
 
-            if (leftMarker <= rightMarker) {
-                boolean needSwap = checkNeedSwap(cutBorders, leftMarker, rightMarker);
+             if (leftMarker <= rightMarker) {
+                 boolean needSwap = checkNeedSwap(cutBorders, leftMarker, rightMarker);
 
-                if (needSwap) {
-                    CutBorder tmp = cutBorders.get(rightMarker);
-                    cutBorders.set(rightMarker, cutBorders.get(leftMarker));
-                    cutBorders.set(leftMarker, tmp);
-                }
+                 if (needSwap) {
+                     CutBorder tmp = cutBorders.get(rightMarker);
+                     cutBorders.set(rightMarker, cutBorders.get(leftMarker));
+                     cutBorders.set(leftMarker, tmp);
+                 }
 
-                leftMarker++;
-                rightMarker--;
-            }
-        }
+                 leftMarker++;
+                 rightMarker--;
+             }
+         }
 
-        if (leftMarker < rightIndex) {
-            sortValues(leftMarker, rightIndex);
-        }
-        if (rightMarker > leftIndex) {
-            sortValues(leftIndex, rightMarker);
-        }
-    }
+         if (leftMarker < rightIndex) {
+             sortValues(leftMarker, rightIndex);
+         }
+         if (rightMarker > leftIndex) {
+             sortValues(leftIndex, rightMarker);
+         }
+     }
 
     private boolean checkNeedSwap(List<CutBorder> cutBorders, int left, int right) {
         if (cutBorders.get(left).value() == cutBorders.get(right).value()) {
