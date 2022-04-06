@@ -7,14 +7,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @RunWith(Parameterized.class)
 public class FindingIntervalsTest {
     private final List<CutBorder> cutBorders;
-    private final String intervals;
+    private final List<Interval> intervals;
 
-    public FindingIntervalsTest(List<CutBorder> cutBorders, String intervals) {
+    public FindingIntervalsTest(List<CutBorder> cutBorders, List<Interval> intervals) {
         this.cutBorders = cutBorders;
         this.intervals = intervals;
     }
@@ -22,16 +21,21 @@ public class FindingIntervalsTest {
     @Parameterized.Parameters
     public static List<Object[]> cases() throws FileNotFoundException {
         return Arrays.asList(new Object[][]{
-                {Utils.readCutBorders(new File("src/test/resources/inputWithFiveIntervals.txt")), "[(74; 87)]"},
-                {Utils.readCutBorders(new File("src/test/resources/inputWithOneInterval.txt")), "[(22; 44)]"},
-                {Utils.readCutBorders(new File("src/test/resources/inputWithTwoDifferentIntervals.txt")), "[(1; 2), (33; 55)]"},
-                {Utils.readCutBorders(new File("src/test/resources/inputWithTenIntervals.txt")), "[(32; 33)]"},
-                {Utils.readCutBorders(new File("src/test/resources/inputWithTwoEqualIntervals.txt")), "[(48; 51)]"}
+                {Utils.readCutBorders(new File("src/test/resources/inputWithoutIntervals.txt")),
+                        Utils.readIntervals(new File("src/test/resources/answerForInputWithoutIntervals.txt"))},
+                {Utils.readCutBorders(new File("src/test/resources/inputWithOneInterval.txt")),
+                        Utils.readIntervals(new File("src/test/resources/answerForInputWithOneInterval.txt"))},
+                {Utils.readCutBorders(new File("src/test/resources/inputWithTwoDifferentIntervals.txt")),
+                        Utils.readIntervals(new File("src/test/resources/answerForInputWithTwoDifferentIntervals.txt"))},
+                {Utils.readCutBorders(new File("src/test/resources/inputWithTenIntervals.txt")),
+                        Utils.readIntervals(new File("src/test/resources/answerForInputWithTenIntervals.txt"))},
+                {Utils.readCutBorders(new File("src/test/resources/inputWithTwoEqualIntervals.txt")),
+                        Utils.readIntervals(new File("src/test/resources/answerForInputWithTwoEqualIntervals.txt"))}
         });
     }
 
         @Test
         public void findMoreCoveredIntervals () {
-            Assert.assertEquals(intervals, Objects.requireNonNull(new FindingIntervals(cutBorders).findMoreCoveredIntervals()).toString());
+            Assert.assertEquals(intervals, new FindingIntervals(cutBorders).findMoreCoveredIntervals());
         }
     }
